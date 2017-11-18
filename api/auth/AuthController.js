@@ -50,6 +50,7 @@ exports.validateParamsType = (req, res, next) => {
   if (body.email && typeof body.email !== 'string') {
     return next(new Error('Email must be a string'))
   }
+
   if (body.name && typeof body.name !== 'string') {
     return next(new Error('Name must be a string'))
   }
