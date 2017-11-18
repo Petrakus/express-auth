@@ -42,3 +42,16 @@ exports.user_info = (req, res) => {
   tmpUser.password = null
   res.send(tmpUser)
 }
+exports.validateParamsType = (req, res, next) => {
+  const body = req.body
+  if (body.email && typeof body.email !== 'string') {
+    return next(new Error('Email must be a string'))
+  }
+  if (body.name && typeof body.name !== 'string') {
+    return next(new Error('Name must be a string'))
+  }
+  if (body.password && typeof body.password !== 'string') {
+    return next(new Error('Password must be a string'))
+  }
+  next()
+}

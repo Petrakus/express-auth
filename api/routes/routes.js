@@ -8,17 +8,23 @@ const requireAuth = passport.authenticate('jwt', { session: false })
 const requireLogin = passport.authenticate('local', { session: false })
 
 module.exports = (app) => {
+  const auth = controllers.auth
   app
     .route(`${AUTH_CONTEXT}/register`)
-    .post(controllers.auth.register)
+    .post(auth.validateParamsType, auth.register)
 
   app
     .route(`${AUTH_CONTEXT}/login`)
-    .post(requireLogin, controllers.auth.login)
+    .post(auth.validateParamsType, requireLogin, auth.login)
 
   app
     .route(`${AUTH_CONTEXT}/me`)
-    .get(requireAuth, controllers.auth.user_info)
+    .get(requireAuth, auth.user_info)
+
+  // Error handling middleware.
+  app.use((err, req, res, next) => {
+    res.status(500).send({error: err.message})
+  })
 
   app.use((req, res) => {
     res.status(404).send({url: req.originalUrl + ' not found'})
