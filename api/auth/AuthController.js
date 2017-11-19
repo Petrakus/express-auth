@@ -43,7 +43,7 @@ exports.user_info = (req, res) => {
   res.send(tmpUser)
 }
 
-// Validate request inputs for type string
+// Middleware: Validate request inputs for type string
 // in order to prevent SQL injection.
 exports.validateParamsType = (req, res, next) => {
   const body = req.body

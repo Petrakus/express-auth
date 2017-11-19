@@ -1,4 +1,4 @@
-const controllers = require('../controllers')
+const auth = require('../auth/AuthController')
 const passportConfig = require('../services/passport')
 const passport = require('passport')
 
@@ -8,7 +8,6 @@ const requireAuth = passport.authenticate('jwt', { session: false })
 const requireLogin = passport.authenticate('local', { session: false })
 
 module.exports = (app) => {
-  const auth = controllers.auth
   app
     .route(`${AUTH_CONTEXT}/register`)
     .post(auth.validateParamsType, auth.register)
