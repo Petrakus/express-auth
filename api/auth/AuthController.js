@@ -14,7 +14,7 @@ exports.register = (req, res, next) => {
   let name = req.body.name
   let password = req.body.password
 
-  User.findOne({email}, (err, existingUser) => {
+  User.findOne({email: { $in: [email] }}, (err, existingUser) => {
     if (err) { return next(err) }
     if (existingUser) {
       return res.status(422).send({ error: 'Email already exists.' })
@@ -41,23 +41,4 @@ exports.user_info = (req, res) => {
   let tmpUser = req.user
   tmpUser.password = null
   res.send(tmpUser)
-}
-
-// Middleware: Validate request inputs for type string
-// in order to prevent SQL injection.
-exports.validateParamsType = (req, res, next) => {
-  const body = req.body
-  if (body.email && typeof body.email !== 'string') {
-    return next(new Error('Email must be a string'))
-  }
-
-  if (body.name && typeof body.name !== 'string') {
-    return next(new Error('Name must be a string'))
-  }
-
-  if (body.password && typeof body.password !== 'string') {
-    return next(new Error('Password must be a string'))
-  }
-  
-  next()
 }

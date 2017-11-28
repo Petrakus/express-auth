@@ -10,11 +10,11 @@ const requireLogin = passport.authenticate('local', { session: false })
 module.exports = (app) => {
   app
     .route(`${AUTH_CONTEXT}/register`)
-    .post(auth.validateParamsType, auth.register)
+    .post(auth.register)
 
   app
     .route(`${AUTH_CONTEXT}/login`)
-    .post(auth.validateParamsType, requireLogin, auth.login)
+    .post(requireLogin, auth.login)
 
   app
     .route(`${AUTH_CONTEXT}/me`)
